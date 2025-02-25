@@ -1,4 +1,4 @@
-var pWeb = (function () {
+const pWeb = (function () {
     return {
         id: "pWeb",
         dataUrl: function () {
@@ -33,14 +33,14 @@ var pWeb = (function () {
             this.startSocialLoadingFx();
             this.loadData();
             this.initEvents();
-            this.detectDarkMode();
+            this.getTheme();
         },
         createDOMElements: function (sources, parent) {
-            for (var i in sources) {
-                var s = sources[i],
+            for (let i in sources) {
+                const s = sources[i],
                     e = document.createElement(s.tag);
 
-                for (var a in s.attr) {
+                for (let a in s.attr) {
                     e.setAttribute(a, s.attr[a]);
                 }
 
@@ -58,7 +58,7 @@ var pWeb = (function () {
             if (!url)
                 return;
 
-            var l = document.createElement("link");
+            const l = document.createElement("link");
             l.rel = "stylesheet";
             l.type = "text/css";
             l.href = url;
@@ -68,7 +68,7 @@ var pWeb = (function () {
             if (!url)
                 return;
 
-            var l = document.createElement("script");
+            const l = document.createElement("script");
             l.src = url;
 
             if (async)
@@ -77,7 +77,7 @@ var pWeb = (function () {
             this.head.appendChild(l);
         },
         insertGoogleTracking: function () {
-            var u = "https://www.googletagmanager.com/gtag/js?id=" + this.data["google-tracking-id"];
+            const u = "https://www.googletagmanager.com/gtag/js?id=" + this.data["google-tracking-id"];
             this.insertScriptAsset(u, true);
 
             window.dataLayer = window.dataLayer || [];
@@ -89,7 +89,7 @@ var pWeb = (function () {
             }
         },
         loadData: function () {
-            var this_ = this;
+            const this_ = this;
 
             setTimeout(function () {
                 this_.xhr(this_.dataUrl(), function (r) {
@@ -112,7 +112,7 @@ var pWeb = (function () {
                 return document.getElementById(this.rid("video")).remove();
             }
 
-            var v = document.createElement("iframe"),
+            const v = document.createElement("iframe"),
                 attr = [
                     ["src", this.data.video],
                     ["title", this.data.name],
@@ -120,7 +120,7 @@ var pWeb = (function () {
                     ["allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"],
                 ];
 
-            for (var a in attr) {
+            for (let a in attr) {
                 v.setAttribute(attr[a][0], attr[a][1]);
             }
 
@@ -130,13 +130,13 @@ var pWeb = (function () {
         addContents: function () {
             document.getElementById(this.rid("contents")).innerHTML = null;
 
-            for (var k in this.data.contents) {
-                var d = this.data.contents[k],
+            for (let k in this.data.contents) {
+                const d = this.data.contents[k],
                     i = document.createElement("ul");
                 i.className = this.rid("content") + " " + this.rid("content-" + k);
 
-                for (var di in d) {
-                    var si = document.createElement("li");
+                for (let di in d) {
+                    const si = document.createElement("li");
                     si.innerHTML = this.mmd(d[di]);
                     i.appendChild(si);
                 }
@@ -147,8 +147,8 @@ var pWeb = (function () {
         addSocials: function () {
             document.getElementById(this.rid("social")).innerHTML = null;
 
-            for (var s in this.data.social) {
-                var l = document.createElement("li"),
+            for (let s in this.data.social) {
+                const l = document.createElement("li"),
                     a = document.createElement("a"),
                     t = [
                         ["href", this.data.social[s]],
@@ -167,7 +167,7 @@ var pWeb = (function () {
                 document.getElementById(this.rid("social")).appendChild(l);
             }
         },
-        detectDarkMode: function () {
+        getTheme: function () {
             this.theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
                 ? 'dark' : 'light';
 
@@ -175,9 +175,9 @@ var pWeb = (function () {
             this.setThemeHandle();
         },
         setThemeHandle: function () {
-            var this_ = this;
+            const this_ = this;
             setTimeout(function () {
-                var e = document.getElementById(this_.rid("theme-handle")),
+                const e = document.getElementById(this_.rid("theme-handle")),
                     i = document.createElement("i"),
                     t = this_.theme === "light" ? "dark" : "light";
 
@@ -192,19 +192,19 @@ var pWeb = (function () {
             this.setThemeHandle();
         },
         startSocialLoadingFx: function () {
-            var li = "<li><a " + this.loadingFx + "><i></i></a></li>",
+            let li = "<li><a " + this.loadingFx + "><i></i></a></li>",
                 lis = "";
 
-            for (var i = 1; i <= 7; i++) {
+            for (let i = 1; i <= 7; i++) {
                 lis += li;
             }
 
             document.getElementById(this.rid("social")).innerHTML = lis;
         },
         removeLoadingFx: function () {
-            var sel = document.querySelectorAll("[" + this.loadingFx + "]");
+            const sel = document.querySelectorAll("[" + this.loadingFx + "]");
 
-            for (var i in sel) {
+            for (const i in sel) {
                 var el = sel[i];
                 if (el instanceof HTMLElement) {
                     el.removeAttribute(this.loadingFx);
@@ -221,7 +221,7 @@ var pWeb = (function () {
             document.getElementById(this.rid("posts")).setAttribute(this.toggleVisible, b);
         },
         initEvents() {
-            var this_ = this;
+            const this_ = this;
 
             document.getElementById(this.rid("open-posts-handle")).addEventListener("click", function () {
                 this_.toggleVisiblePosts(true);
@@ -235,14 +235,14 @@ var pWeb = (function () {
                 this_.toggleTheme();
             });
 
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-                this_.detectDarkMode();
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+                this_.getTheme();
             });
         },
         curatorLoaded: false,
         loadCurator: function () {
             if (this.curatorLoaded) {
-                var curatorFeedField = window.document.querySelector(".crt-feed");
+                const curatorFeedField = window.document.querySelector(".crt-feed");
 
                 if (curatorFeedField) {
                     curatorFeedField.setAttribute("style", "display:none");
@@ -256,9 +256,9 @@ var pWeb = (function () {
             }
 
             this.curatorLoaded = true;
-            var this_ = this;
+            const this_ = this;
             (function () {
-                var i, e, d = document, s = "script";
+                let i, e, d = document, s = "script";
                 i = d.createElement("script");
                 i.async = 1;
                 i.charset = "UTF-8";
@@ -330,7 +330,7 @@ var pWeb = (function () {
             ]
         },
         xhr: function (url, cb) {
-            var xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status >= 200) {
@@ -344,7 +344,7 @@ var pWeb = (function () {
             xhr.send();
         },
         mmd: function (src) {
-            var h = '';
+            let h = '';
 
             function escape(t) {
                 return new Option(t).innerHTML;
