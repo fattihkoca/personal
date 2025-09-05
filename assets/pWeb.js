@@ -16,7 +16,7 @@ const pWeb = (function () {
                 provider: null
             },
             "google-tracking-id": null,
-            "curator-id": null
+            "social-feed-id": null
         },
         loadingFx: "data-loading-fx",
         toggleVisible: "data-visible",
@@ -215,7 +215,7 @@ const pWeb = (function () {
         },
         toggleVisiblePosts: function (b) {
             if (b)
-                this.loadCurator();
+                this.loadSocialFeed();
 
             document.getElementById(this.rid("intro")).setAttribute(this.toggleVisible, !b);
             document.getElementById(this.rid("posts")).setAttribute(this.toggleVisible, b);
@@ -239,9 +239,9 @@ const pWeb = (function () {
                 this_.getTheme();
             });
         },
-        curatorLoaded: false,
-        loadCurator: function () {
-            if (this.curatorLoaded) {
+        socialFeedLoaded: false,
+        loadSocialFeed: function () {
+            if (this.socialFeedLoaded) {
                 const curatorFeedField = window.document.querySelector(".crt-feed");
 
                 if (curatorFeedField) {
@@ -255,19 +255,19 @@ const pWeb = (function () {
                 }
             }
 
-            this.curatorLoaded = true;
+            this.socialFeedLoaded = true;
             const this_ = this;
             (function () {
                 let i, e, d = document, s = "script";
                 i = d.createElement("script");
                 i.async = 1;
                 i.charset = "UTF-8";
-                i.src = "https://cdn.curator.io/published/" + this_.data["curator-id"] + ".js";
+                i.src = "https://elfsightcdn.com/platform.js";
                 e = d.getElementsByTagName(s)[0];
                 e.parentNode.insertBefore(i, e);
 
                 i.onload = function () {
-                    document.getElementById(this_.rid("posts-provider")).innerText = this_.mmd(this_.data.posts.title + " - " + this_.data.posts.provider);
+                    document.querySelector('[data-elfsight-app-lazy]').classList.add(this_.data["social-feed-id"]);
                 };
             })();
         },
@@ -308,19 +308,7 @@ const pWeb = (function () {
                                 {tag: "h6", attr: {id: this.rid("posts-title")}},
                                 {
                                     tag: "div",
-                                    attr: {id: "curator-feed"},
-                                    children: [
-                                        {
-                                            tag: "a",
-                                            attr: {
-                                                id: this.rid("posts-provider"),
-                                                href: "https://curator.io",
-                                                target: "_blank",
-                                                rel: "noreferrer",
-                                                class: "crt-logo crt-tag"
-                                            }
-                                        }
-                                    ]
+                                    attr: {'data-elfsight-app-lazy': "1"},
                                 },
                             ]
                         },
