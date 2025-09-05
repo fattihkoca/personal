@@ -484,7 +484,7 @@ body {
 }
 
 [data-pWeb-theme='dark'] #pWeb-theme-handle:hover {
-    box-shadow: var(--loading-fx-color-dark) 0 0 10px;
+    box-shadow: var(--loading-fx-color-dark) 0 0 2px;
 }
 
 #pWeb-theme-handle i {
